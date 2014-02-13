@@ -1,55 +1,71 @@
-#if (ARDUINO >= 100)
-  #include "Arduino.h"
-#else
-  #include <avr/io.h>
-  #include "WProgram.h"
-#endif
-#include "AFMotorDrawbot.h"
-//------------------------------------------------------------------------------
+/*---------------------------------------------------------------------------------
+    _____ ___________________  
+  /  _  \\______   \_   ___ \ 
+ /  /_\  \|       _/    \  \/ 
+/    |    \    |   \     \____
+\____|__  /____|_  /\______  /
+        \/       \/        \/ 
+  An OpenSource Pythagorean based 2D plotter
+      By: Glenn Lopez
+
+Github page: https://github.com/glennlopez/Arc/tree/master
+  (visit the link above for the latest version history & revision)    
+---------------------------------------------------------------------------------*/
 
 
+/*--      START HEADER FILES      --*/
+  #if (ARDUINO >= 100)
+    #include "Arduino.h"
+  #else 
+    #include <avr/io.h>
+    #include "WProgram.h"
+  #endif
+  #include "AFMotor.h"
+/*--      START HEADER FILES      --*/
 
 static uint8_t latch_state;
 static AFMotorController MC;
+AFMotorController::AFMotorController() 
+ {
+  // none
+ }
 
+/*--    MOTOR CONTROL FUNCTION      --*/
+ void AFMotorController::enable() 
+  {
+   // Latch Setup
+      /*
+      LATCH_DDR |= _BV(LATCH);
+      ENABLE_DDR |= _BV(ENABLE);
+      CLK_DDR |= _BV(CLK);
+      SER_DDR |= _BV(SER);
+      */
+    pinMode(MOTORLATCH, OUTPUT);
+    pinMode(MOTORENABLE, OUTPUT);
+    pinMode(MOTORDATA, OUTPUT);
+    pinMode(MOTORCLK, OUTPUT);
 
+    latch_state = 0;
 
-//------------------------------------------------------------------------------
-AFMotorController::AFMotorController() {}
+    latch_tx();  // "reset"
 
+   //ENABLE_PORT &= ~_BV(ENABLE);                           //<-- enable the chip outputs!
+   digitalWrite(MOTORENABLE, LOW);
+  }
+/*--    END MOTOR CONTROL FUNCTION      --*/
 
-void AFMotorController::enable() {
-  // setup the latch
-  /*
-  LATCH_DDR |= _BV(LATCH);
-  ENABLE_DDR |= _BV(ENABLE);
-  CLK_DDR |= _BV(CLK);
-  SER_DDR |= _BV(SER);
-  */
-  pinMode(MOTORLATCH, OUTPUT);
-  pinMode(MOTORENABLE, OUTPUT);
-  pinMode(MOTORDATA, OUTPUT);
-  pinMode(MOTORCLK, OUTPUT);
+/*--    MOTOR LATCH FUNCTION      --*/
+ void AFMotorController::latch_tx() 
+ {
+   uint8_t i;
 
-  latch_state = 0;
+   //LATCH_PORT &= ~_BV(LATCH);
+   digitalWrite(MOTORLATCH, LOW);
 
-  latch_tx();  // "reset"
+   //SER_PORT &= ~_BV(SER);
+   digitalWrite(MOTORDATA, LOW);
 
-  //ENABLE_PORT &= ~_BV(ENABLE); // enable the chip outputs!
-  digitalWrite(MOTORENABLE, LOW);
-}
-
-
-void AFMotorController::latch_tx() {
-  uint8_t i;
-
-  //LATCH_PORT &= ~_BV(LATCH);
-  digitalWrite(MOTORLATCH, LOW);
-
-  //SER_PORT &= ~_BV(SER);
-  digitalWrite(MOTORDATA, LOW);
-
-  for (i=0; i<8; i++) {
+   for (i=0; i<8; i++) {
     //CLK_PORT &= ~_BV(CLK);
     digitalWrite(MOTORCLK, LOW);
 
@@ -62,11 +78,11 @@ void AFMotorController::latch_tx() {
     }
     //CLK_PORT |= _BV(CLK);
     digitalWrite(MOTORCLK, HIGH);
-  }
-  //LATCH_PORT |= _BV(LATCH);
-  digitalWrite(MOTORLATCH, HIGH);
-}
-
+   }
+ //LATCH_PORT |= _BV(LATCH);
+ digitalWrite(MOTORLATCH, HIGH);
+ }
+/*--    END MOTOR LATCH FUNCTION      --*/
 
 
 //------------------------------------------------------------------------------

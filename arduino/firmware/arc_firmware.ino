@@ -1,3 +1,19 @@
+/*---------------------------------------------------------------------------------
+    _____ ___________________  
+  /  _  \\______   \_   ___ \ 
+ /  /_\  \|       _/    \  \/ 
+/    |    \    |   \     \____
+\____|__  /____|_  /\______  /
+        \/       \/        \/ 
+  An OpenSource Pythagorean based 2D plotter
+      By: Glenn Lopez
+
+
+Github page: https://github.com/glennlopez/Arc/tree/master
+  (visit the link above for the latest version history & revision)    
+---------------------------------------------------------------------------------*/
+
+
 //------------------------------------------------------------------------------
 // CONSTANTS
 //------------------------------------------------------------------------------
@@ -11,23 +27,25 @@
 
 
 // which motor is on which pin?
-#define M1_PIN          (1)
-#define M2_PIN          (2)
+  #define M1_PIN          (1)
+  #define M2_PIN          (2)
 
 // which limit switch is on which pin?
-#define L_PIN          (A3)
-#define R_PIN          (A5)
+  #define L_PIN          (A3)
+  #define R_PIN          (A5)
 
 // NEMA17 are 200 steps (1.8 degrees) per turn.  If a spool is 0.8 diameter
-// then it is 2.5132741228718345 circumference, and
-// 2.5132741228718345 / 200 = 0.0125663706 thread moved each step.
-// NEMA17 are rated up to 3000RPM.  Adafruit can handle >1000RPM.
-// These numbers directly affect the maximum velocity.
-#define STEPS_PER_TURN  (400.0)
-#define MAX_RPM         (200.0)
+  /* 
+   then it is 2.5132741228718345 circumference, and
+   2.5132741228718345 / 200 = 0.0125663706 thread moved each step.
+   NEMA17 are rated up to 3000RPM.  Adafruit can handle >1000RPM.
+   These numbers directly affect the maximum velocity. 
+   */
+  #define STEPS_PER_TURN  (400.0)
+  #define MAX_RPM         (200.0)
 
 // delay between steps, in microseconds.
-#define STEP_DELAY      (5200)  // = 3.5ms
+  #define STEP_DELAY      (5200)  // = 3.5ms
 
 
 // *****************************************************************************
