@@ -97,7 +97,7 @@ Github page: https://github.com/glennlopez/Arc/tree/master
 // INCLUDES
 //------------------------------------------------------------------------------
 // Adafruit motor driver library
-#include <AFMotorDrawbot.h>
+#include <AFMotor.h>
 
 // Default servo library
 #include <Servo.h> 
@@ -463,7 +463,7 @@ static void teleport(float x,float y) {
 
 //------------------------------------------------------------------------------
 static void help() {
-  Serial.println(F("== DRAWBOT - http://github.com/i-make-robots/Drawbot/ =="));
+  Serial.println(F("== Arc - https://github.com/glennlopez/Arc =="));
   Serial.println(F("All commands end with a semi-colon."));
   Serial.println(F("HELP;  - display this message"));
   Serial.println(F("CONFIG [Tx.xx] [Bx.xx] [Rx.xx] [Lx.xx];"));
@@ -959,7 +959,7 @@ void setup() {
   sofar=0;
   // start communications
   Serial.begin(BAUD);
-  Serial.print(F("\n\nHELLO WORLD! I AM DRAWBOT #"));
+  Serial.print(F("\n\nARC TEST #"));
   Serial.println(robot_uid);
   
 #ifdef USE_SD_CARD
@@ -995,8 +995,6 @@ void setup() {
 
 //------------------------------------------------------------------------------
 void loop() {
-  // See: http://www.marginallyclever.com/2011/10/controlling-your-arduino-through-the-serial-monitor/
-  // listen for serial commands
   while(Serial.available() > 0) {
     buffer[sofar++]=Serial.read();
     if(buffer[sofar-1]==';') break;  // in case there are multiple instructions
