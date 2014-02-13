@@ -5,7 +5,7 @@ Arc is a Pythagorean plotter that uses arduino uC to controll the motors that pu
 Folder Structure
 ---
 <b>1. [arduino]</b> - contains the firmware for the arduino<br/>
-<b>2. [java]</b> - contains java software for user-end (GUI)<br/>
+<b>2. [java]</b> - contains java software for enduser (GUI)<br/>
 <b>3. [gcode]</b> - contains test and calibration files after the initial setup<br/>
 <b>4. [3dmodels]</b> - contains stl files for 3d printing<br/>
 
