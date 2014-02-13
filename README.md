@@ -1,6 +1,7 @@
 What is Arc?
 ===
 Arc is a Pythagorean plotter that uses arduino uC to control the motors that pull the strings (adjusting the hypotenues) at correct speed to move from point A to point B. Java is used as a gcode enterpreter to automate the process of sending commands one after another to draw large images using gcode. 
+<img src="http://people.ece.cornell.edu/land/courses/ece4760/FinalProjects/s2001/vp2/vp2sketch.jpg" alt="pythag">
 <br />
 <br />
 Languages: <b>[C] [C++] [Java] [Arduino]</b> are used in this project
