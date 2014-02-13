@@ -84,14 +84,9 @@ AFMotorController::AFMotorController()
  }
 /*--    END MOTOR LATCH FUNCTION      --*/
 
-
-//------------------------------------------------------------------------------
-// STEPPERS
-//------------------------------------------------------------------------------
-
-
-
-AF_Stepper::AF_Stepper(uint16_t steps, uint8_t num) {
+/*--    MOTOR SETTINGS      --*/
+ AF_Stepper::AF_Stepper(uint16_t steps, uint8_t num) 
+ {
   MC.enable();
 
   revsteps = steps;
@@ -129,74 +124,88 @@ AF_Stepper::AF_Stepper(uint16_t steps, uint8_t num) {
     c = _BV(MOTOR3_B);
     d = _BV(MOTOR4_B);
   }
-}
+ }
+/*--    END SETTINGS FUNCTION      --*/
 
+/*--    MOTOR SPEED FUNCTION      --*/
+ void AF_Stepper::setSpeed(uint16_t rpm) 
+ {
+    usperstep = 60000000 / ((uint32_t)revsteps * (uint32_t)rpm);
+    steppingcounter = 0;
+ }
+/*--    END SPEED FUNCTION      --*/
 
-void AF_Stepper::setSpeed(uint16_t rpm) {
-  usperstep = 60000000 / ((uint32_t)revsteps * (uint32_t)rpm);
-  steppingcounter = 0;
-}
+/*--    MOTOR LATCH RELEASE FUNCTION      --*/
+ void AF_Stepper::release() 
+ {
+   // release all
+   latch_state &= ~a & ~b & ~c & ~d; // all motor pins to 0
+   MC.latch_tx();
+ }
+/*--    END LATCH RELEASE FUNCTION      --*/
 
-
-void AF_Stepper::release() {
-  // release all
-  latch_state &= ~a & ~b & ~c & ~d; // all motor pins to 0
-  MC.latch_tx();
-}
-
-
-void AF_Stepper::step(uint16_t steps, uint8_t dir) {
+/*--    MOTOR STEP CONFIG      --*/
+ void AF_Stepper::step(uint16_t steps, uint8_t dir) 
+ {
   uint32_t uspers = usperstep;
   uint8_t ret = 0;
 
-  while (steps--) {
+  while (steps--) 
+   {
     ret = onestep(dir);
-//*
+    //*
     delay(uspers/1000);  // in ms
     steppingcounter += (uspers % 1000);
-    if (steppingcounter >= 1000) {
+    if (steppingcounter >= 1000) 
+     {
       delay(1);
       steppingcounter -= 1000;
-    }
-//*/    delayMicroseconds(uspers);
-  }
-}
+     }
+   //*/    delayMicroseconds(uspers);
+   }
+ }
+/*--    END STEP CONFIG      --*/
 
+/*--    MOTOR ONE-STEP CONFIG      --*/
+ uint8_t AF_Stepper::onestep(uint8_t dir) 
+ {
+  if((currentstep/(MICROSTEPS/2)) % 2) 
+   { // we're at an odd step, weird
+     if(dir == FORWARD) currentstep += MICROSTEPS/2;
+     else               currentstep -= MICROSTEPS/2;
+   } 
+     else 
+      {           // go to the next even step
+      if(dir == FORWARD) currentstep += MICROSTEPS;
+      else               currentstep -= MICROSTEPS;
+      }
 
-uint8_t AF_Stepper::onestep(uint8_t dir) {
-  if((currentstep/(MICROSTEPS/2)) % 2) { // we're at an odd step, weird
-    if(dir == FORWARD) currentstep += MICROSTEPS/2;
-    else               currentstep -= MICROSTEPS/2;
-  } else {           // go to the next even step
-    if(dir == FORWARD) currentstep += MICROSTEPS;
-    else               currentstep -= MICROSTEPS;
-  }
+ currentstep += MICROSTEPS*4;
+ currentstep %= MICROSTEPS*4;
 
-  currentstep += MICROSTEPS*4;
-  currentstep %= MICROSTEPS*4;
-
-#ifdef MOTORDEBUG
-  Serial.print("current step: "); Serial.println(currentstep, DEC);
-#endif
+ #ifdef MOTORDEBUG
+ Serial.print("current step: "); Serial.println(currentstep, DEC);
+ #endif
 
   // preprare to release all coils
   latch_state &= ~a & ~b & ~c & ~d; // all motor pins to 0
 
   // No wait!  Keep some energized.
-  switch (currentstep/(MICROSTEPS/2)) {
-  case 0:  latch_state |= a;      break;  // energize coil 1 only
-  case 1:  latch_state |= a | b;  break;  // energize coil 1+2
-  case 2:  latch_state |= b;      break;  // energize coil 2 only
-  case 3:  latch_state |= b | c;  break;  // energize coil 2+3
-  case 4:  latch_state |= c;      break;  // energize coil 3 only
-  case 5:  latch_state |= c | d;  break;  // energize coil 3+4
-  case 6:  latch_state |= d;      break;  // energize coil 4 only
-  case 7:  latch_state |= d | a;  break;  // energize coil 1+4
+  switch (currentstep/(MICROSTEPS/2)) 
+  {
+    case 0:  latch_state |= a;      break;  // energize coil 1 only
+    case 1:  latch_state |= a | b;  break;  // energize coil 1+2
+    case 2:  latch_state |= b;      break;  // energize coil 2 only
+    case 3:  latch_state |= b | c;  break;  // energize coil 2+3
+    case 4:  latch_state |= c;      break;  // energize coil 3 only
+    case 5:  latch_state |= c | d;  break;  // energize coil 3+4
+    case 6:  latch_state |= d;      break;  // energize coil 4 only
+    case 7:  latch_state |= d | a;  break;  // energize coil 1+4
   }
 
   // change the energized state now
   MC.latch_tx();
   
   return currentstep;
-}
-
+ }
+/*--    END ONE-STEP CONFIG      --*/
