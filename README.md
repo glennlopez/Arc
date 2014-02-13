@@ -13,6 +13,7 @@ Folder Structure
 <b>2. [java]</b> - contains java software for user-end (GUI)<br/>
 <b>3. [gcode]</b> - contains test and calibration files after the initial setup<br/>
 <b>4. [3dmodels]</b> - contains stl files for 3d printing<br/>
+<b>5. [pcb]</b> - contains gerber files for routing<br/>
 
 Repo Structure
 ---
