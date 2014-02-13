@@ -1,5 +1,19 @@
-#ifndef _AFMotorDrawbot_h_
-#define _AFMotorDrawbot_h_
+/*---------------------------------------------------------------------------------
+    _____ ___________________  
+  /  _  \\______   \_   ___ \ 
+ /  /_\  \|       _/    \  \/ 
+/    |    \    |   \     \____
+\____|__  /____|_  /\______  /
+        \/       \/        \/ 
+  An OpenSource Pythagorean based 2D plotter
+      By: Glenn Lopez
+
+Github page: https://github.com/glennlopez/Arc/tree/master
+  (visit the link above for the latest version history & revision)    
+---------------------------------------------------------------------------------*/
+
+#ifndef _AFMotor_h_
+#define _AFMotor_h_
 #include <inttypes.h>
 #include <avr/io.h>
 
@@ -31,13 +45,14 @@
 
 //------------------------------------------------------------------------------
 
-class AFMotorController {
-public:
+class AFMotorController 
+ {
+  public:
   AFMotorController();
   void enable();
   friend class AF_DCMotor;
   void latch_tx();
-};
+ };
 
 
 class AF_Stepper {
