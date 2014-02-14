@@ -1,6 +1,6 @@
 About Arc
 ===
-Arc is a Pythagorean plotter that uses C, C++, Java, and Arduino to solve a problem. Can be used to clean windows or spray paint images/murals on walls (attachments coming later).
+Arc is a Pythagorean plotter that uses C, C++, Java, and Arduino to draw scanned & converted images to dry-erase-boards. Can also be used to clean windows or spray paint images/murals on walls (attachments coming later).
 <img src="http://people.ece.cornell.edu/land/courses/ece4760/FinalProjects/s2001/vp2/vp2sketch.jpg" alt="pythag">
 <br />
 <br />
