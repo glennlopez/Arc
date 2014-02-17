@@ -4,6 +4,7 @@ Arc is a Pythagorean plotter that uses C, C++, Java, and Arduino to draw scanned
 <img src="http://people.ece.cornell.edu/land/courses/ece4760/FinalProjects/s2001/vp2/vp2sketch.jpg" alt="pythag">
 <br />
 <br />
+<b>Video:</b> <a href="https://plus.google.com/photos/+GlennLopez/albums/5981450656375791969?authkey=CPqYk7Lb-qi6Sw">Project Album</a><br/>
 Languages: <b>[C] [C++] [Java] [Arduino]</b> are used in this project
 
 
