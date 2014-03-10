@@ -22,9 +22,9 @@ Github page: https://github.com/glennlopez/Arc/tree/master
   #endif
   #include "AFMotor.h"
 /*--      START HEADER FILES      --*/
-
 static uint8_t latch_state;
 static AFMotorController MC;
+
 AFMotorController::AFMotorController() 
  {
   // none
